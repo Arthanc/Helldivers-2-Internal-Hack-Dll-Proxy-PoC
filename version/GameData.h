@@ -2,22 +2,22 @@
 class GameData
 {
 	public:
-		bool	InfAmmo = false;
-		bool	InfAmmoLegit = false;
-		bool	InfGrenades = false;
-		bool	InfGrenadesLegit = false;
-		bool	InfSyringes = false;
-		bool	InfSyringesLegit = false;
-		bool	InfStratagems = false;
-		bool	InfMissionTime = false;
-		bool	InfStamina = false;
-		bool	InfHealth = false;
+		bool	LotAmmo = false;
+		bool	LotAmmoLegit = false;
+		bool	LotGrenades = false;
+		bool	LotGrenadesLegit = false;
+		bool	LotSyringes = false;
+		bool	LotSyringesLegit = false;
+		bool	LotStratagems = false;
+		bool	LotMissionTime = false;
+		bool	LotStamina = false;
+		bool	LotHealth = false;
 		bool	NoReload = false;
 		bool	MaxResources = false;
 		bool	Add5Resources = false;
 		bool	Recoil = false;
-		bool	InfBackpack = false;
-		bool	InfSpecWeapon = false;
+		bool	LotBackpack = false;
+		bool	LotSpecWeapon = false;
 		bool	NoCannonOverheat = false;
 		bool	NoStasTurretOverHeat = false;
 		bool	JetpackNoCD = false;
@@ -27,7 +27,7 @@ class GameData
 		bool	AllStratagems = false;
 		bool	AllEquipment = false;
 		bool	AllArmor = false;
-		bool	Speedhack = false;
+		bool	Speedmod = false;
 
 		bool	OHK = false;
 };
