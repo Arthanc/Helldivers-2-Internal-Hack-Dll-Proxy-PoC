@@ -74,24 +74,24 @@ DWORD WINAPI Payload(LPVOID lpParam)
 
     //Console Menu
     std::vector<Checkbox> checkboxes = { 
-          {_XOR_("Inf Health"), true}
-        , {_XOR_("Inf Grenades"), false}
-        , {_XOR_("Inf Grenades(Legit)"), true}
-        , {_XOR_("Inf Ammo"), false}
-        , {_XOR_("Inf Ammo(Legit)"), true}
-        , {_XOR_("Inf Syringes"), false}
-        , {_XOR_("Inf Syringes(Legit)"), true}
-        , {_XOR_("Inf Stamina"), true}
-        , {_XOR_("Inf Stratagems"), true}
+          {_XOR_("Lot Health"), true}
+        , {_XOR_("Lot Grenades"), false}
+        , {_XOR_("Lot Grenades(Legit)"), true}
+        , {_XOR_("Lot Ammo"), false}
+        , {_XOR_("Lot Ammo(Legit)"), true}
+        , {_XOR_("Lot Syringes"), false}
+        , {_XOR_("Lot Syringes(Legit)"), true}
+        , {_XOR_("Lot Stamina"), true}
+        , {_XOR_("Lot Stratagems"), true}
         , {_XOR_("MoveSpeed X6"), true}
-        , {_XOR_("Inf Mission Time"), true}
+        , {_XOR_("Lot Mission Time"), true}
         //, {"One / Two Hit Kill ( Bile Titan Bug, Aim Only Head )", false}
         , {_XOR_("No Reload"), true}
         , {_XOR_("Max Resources"), true}
         , {_XOR_("Add 5 Samples"), true}
         , {_XOR_("No Recoil"), true}
-        , {_XOR_("Inf Backpack"), true}
-        , {_XOR_("Inf Special Weapon"), true}
+        , {_XOR_("Lot Backpack"), true}
+        , {_XOR_("Lot Special Weapon"), true}
         , {_XOR_("No Laser Cannon Overheat"), true}
         , {_XOR_("Instant Railgun"), true}
         , {_XOR_("Show All Map Icons"), true}
@@ -121,9 +121,9 @@ DWORD WINAPI Payload(LPVOID lpParam)
         if (checkboxes[i].checked)
         {
 
-            if (checkboxes[i].title == _XOR_("Inf Health"))
+            if (checkboxes[i].title == _XOR_("Lot Health"))
             {
-                if (!gData.InfHealth) // no need but its old code when activate using hotkey, but need to much hotkey for all feature
+                if (!gData.LotHealth) // no need but its old code when activate using hotkey, but need to much hotkey for all feature
                 {
                     BYTE WriteHealthBytes[] =
                     {
@@ -148,36 +148,36 @@ DWORD WINAPI Payload(LPVOID lpParam)
                         0xFF, 0x25, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 //JMP return_SetHealth
                     };
 
-                    uintptr_t InfHealth = Memory::FindPattern(_XOR_("game.dll"), _XOR_("45 89 38 49 8B 84 DE 28 04 00 00"));
-                    LPVOID memory = Memory::AllocateMemory(InfHealth, sizeof(WriteHealthBytes));
-                    Memory::CreateTrampoline(InfHealth, memory);
-                    Memory::WriteAssemblyInstructions((uintptr_t)memory, InfHealth + 14, WriteHealthBytes, Memory::ArrayLength(WriteHealthBytes));
+                    uintptr_t LotHealth = Memory::FindPattern(_XOR_("game.dll"), _XOR_("45 89 38 49 8B 84 DE 28 04 00 00"));
+                    LPVOID memory = Memory::AllocateMemory(LotHealth, sizeof(WriteHealthBytes));
+                    Memory::CreateTrampoline(LotHealth, memory);
+                    Memory::WriteAssemblyInstructions((uintptr_t)memory, LotHealth + 14, WriteHealthBytes, Memory::ArrayLength(WriteHealthBytes));
 
-                    uintptr_t InfHealth1 = Memory::FindPattern(_XOR_("game.dll"), _XOR_("41 8B 84 8B 28 4C 00 00"));
-                    memory = Memory::AllocateMemory(InfHealth1, sizeof(SetHealthBytes));
-                    Memory::CreateTrampoline(InfHealth1, memory);
-                    Memory::WriteAssemblyInstructions((uintptr_t)memory, InfHealth1 + 18, SetHealthBytes, Memory::ArrayLength(SetHealthBytes));
+                    uintptr_t LotHealth1 = Memory::FindPattern(_XOR_("game.dll"), _XOR_("41 8B 84 8B 28 4C 00 00"));
+                    memory = Memory::AllocateMemory(LotHealth1, sizeof(SetHealthBytes));
+                    Memory::CreateTrampoline(LotHealth1, memory);
+                    Memory::WriteAssemblyInstructions((uintptr_t)memory, LotHealth1 + 18, SetHealthBytes, Memory::ArrayLength(SetHealthBytes));
 
-                    gData.InfHealth = !gData.InfHealth;
+                    gData.LotHealth = !gData.LotHealth;
                     //create trampolin
-                    printf(_XOR_("[Active] Infinite Health\n"));
+                    //printf(_XOR_("[Active] Lots Health\n"));
                 }
             }
 
-            if (checkboxes[i].title == _XOR_("Inf Grenades"))
+            if (checkboxes[i].title == _XOR_("Lot Grenades"))
             {
-                if (!gData.InfGrenades)
+                if (!gData.LotGrenades)
                 {
                     uintptr_t GrenadesAddress = Memory::FindPattern(_XOR_("game.dll"), _XOR_("41 FF 08 4A 8B 84 ED"));
                     Memory::Nop((LPVOID)(GrenadesAddress), 3);
-                    gData.InfGrenades = !gData.InfGrenades;
-                    printf(_XOR_("[Active] Infinite Grenades\n"));
+                    gData.LotGrenades = !gData.LotGrenades;
+                    //printf(_XOR_("[Active] Lots Grenades\n"));
                 }
             }
 
-            if (checkboxes[i].title == _XOR_("Inf Grenades(Legit)"))
+            if (checkboxes[i].title == _XOR_("Lot Grenades(Legit)"))
             {
-                if (!gData.InfGrenadesLegit && !gData.InfGrenades)
+                if (!gData.LotGrenadesLegit && !gData.LotGrenades)
                 {
                     uintptr_t GrenadesAddress = Memory::FindPattern(_XOR_("game.dll"), _XOR_("4D 03 C6 41 FF 08"));
                     BYTE GrenadeBytes[] =
@@ -192,26 +192,26 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     LPVOID memory = Memory::AllocateMemory(GrenadesAddress, sizeof(GrenadeBytes));
                     Memory::CreateTrampoline(GrenadesAddress, memory);
                     Memory::WriteAssemblyInstructions((uintptr_t)memory, GrenadesAddress + 14, GrenadeBytes, Memory::ArrayLength(GrenadeBytes));
-                    gData.InfGrenadesLegit = !gData.InfGrenadesLegit;
-                    printf(_XOR_("[Active] Infinite Grenades(Legit)\n"));
+                    gData.LotGrenadesLegit = !gData.LotGrenadesLegit;
+                    //printf(_XOR_("[Active] Lots Grenades(Legit)\n"));
                 }
             }
 
-            if (checkboxes[i].title == _XOR_("Inf Ammo"))
+            if (checkboxes[i].title == _XOR_("Lot Ammo"))
             {
-                if (!gData.InfAmmo)
+                if (!gData.LotAmmo)
                 {
                     uintptr_t AmmoAddress = Memory::FindPattern(_XOR_("game.dll"), _XOR_("41 83 2C C2 01 4D 8D 04 C2 49 8B 84 CA"));
                     BYTE AmmoPatch[] = { 0x00 };
                     Memory::Patch((LPVOID)(AmmoAddress + 4), AmmoPatch, 1);
-                    gData.InfAmmo = !gData.InfAmmo;
-                    printf(_XOR_("[Active] Infinite Ammo\n"));
+                    gData.LotAmmo = !gData.LotAmmo;
+                    //printf(_XOR_("[Active] Lots Ammo\n"));
                 }
             }
 
-            if (checkboxes[i].title == _XOR_("Inf Ammo(Legit)"))
+            if (checkboxes[i].title == _XOR_("Lot Ammo(Legit)"))
             {
-                if (!gData.InfAmmoLegit && !gData.InfAmmo)
+                if (!gData.LotAmmoLegit && !gData.LotAmmo)
                 {
                     uintptr_t AmmoAddress = Memory::FindPattern(_XOR_("game.dll"), _XOR_("41 83 2C C2 01"));
                     BYTE AmmoBytes[] =
@@ -226,25 +226,25 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     LPVOID memory = Memory::AllocateMemory(AmmoAddress, sizeof(AmmoBytes));
                     Memory::CreateTrampoline(AmmoAddress, memory);
                     Memory::WriteAssemblyInstructions((uintptr_t)memory, AmmoAddress + 17, AmmoBytes, Memory::ArrayLength(AmmoBytes));
-                    gData.InfAmmoLegit = !gData.InfAmmoLegit;
-                    printf(_XOR_("[Active] Infinite Ammo(Legit)\n"));
+                    gData.LotAmmoLegit = !gData.LotAmmoLegit;
+                    //printf(_XOR_("[Active] Lots Ammo(Legit)\n"));
                 }
             }
 
-            if (checkboxes[i].title == _XOR_("Inf Syringes"))
+            if (checkboxes[i].title == _XOR_("Lot Syringes"))
             {
-                if (!gData.InfSyringes)
+                if (!gData.LotSyringes)
                 {
                     uintptr_t Syringes = Memory::FindPattern(_XOR_("game.dll"), _XOR_("41 FF CF 3B C2 74 61"));
                     Memory::Nop((LPVOID)(Syringes), 3);
-                    gData.InfSyringes = !gData.InfSyringes;
-                    printf(_XOR_("[Active] Infinite Syringes\n"));
+                    gData.LotSyringes = !gData.LotSyringes;
+                    //printf(_XOR_("[Active] Lots Syringes\n"));
                 }
             }
 
-            if (checkboxes[i].title == _XOR_("Inf Syringes(Legit)"))
+            if (checkboxes[i].title == _XOR_("Lot Syringes(Legit)"))
             {
-                if (!gData.InfSyringesLegit && !gData.InfSyringes)
+                if (!gData.LotSyringesLegit && !gData.LotSyringes)
                 {
                     uintptr_t SyringesAddress = Memory::FindPattern(_XOR_("game.dll"), _XOR_("48 03 C9 45 8B BC CA C8 75 00 00"));
                     BYTE SyringesBytes[] =
@@ -260,43 +260,43 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     LPVOID memory = Memory::AllocateMemory(SyringesAddress, sizeof(SyringesBytes));
                     Memory::CreateTrampoline(SyringesAddress, memory);
                     Memory::WriteAssemblyInstructions((uintptr_t)memory, SyringesAddress + 14, SyringesBytes, Memory::ArrayLength(SyringesBytes));
-                    gData.InfSyringesLegit = !gData.InfSyringesLegit;
-                    printf(_XOR_("[Active] Infinite Syringes(Legit)\n"));
+                    gData.LotSyringesLegit = !gData.LotSyringesLegit;
+                    //printf(_XOR_("[Active] Lots Syringes(Legit)\n"));
                 }
             }
 
-            if (checkboxes[i].title == _XOR_("Inf Stamina"))
+            if (checkboxes[i].title == _XOR_("Lot Stamina"))
             {
-                if (!gData.InfStamina)
+                if (!gData.LotStamina)
                 {
                     uintptr_t Stamina = Memory::FindPattern(_XOR_("game.dll"), _XOR_("F3 41 0F 11 08 8B 48 10 E8 ?? ?? ?? ?? 41 8B 47 48"));
                     BYTE StaminaPatch[] = { 0xF3, 0x41, 0x0F, 0x11, 0x30 };
                     Memory::Patch((LPVOID)(Stamina), StaminaPatch, 5);
-                    gData.InfStamina = !gData.InfStamina;
-                    printf(_XOR_("[Active] Infinite Stamina\n"));
+                    gData.LotStamina = !gData.LotStamina;
+                    //printf(_XOR_("[Active] Lots Stamina\n"));
                 }
             }
 
-            if (checkboxes[i].title == _XOR_("Inf Stratagems"))
+            if (checkboxes[i].title == _XOR_("Lot Stratagems"))
             {
-                if (!gData.InfStratagems)
+                if (!gData.LotStratagems)
                 {
                     uintptr_t Stratagems = Memory::FindPattern(_XOR_("game.dll"), _XOR_("0F 86 BF 01 00 00 0F"));
                     BYTE StratagemsPatch1[] = { 0x90, 0xE9 };
                     Memory::Patch((LPVOID)(Stratagems), StratagemsPatch1, 2);
-                    gData.InfStratagems = !gData.InfStratagems;
-                    printf(_XOR_("[Active] Infinite Stratagems\n"));
+                    gData.LotStratagems = !gData.LotStratagems;
+                    //printf(_XOR_("[Active] Lots Stratagems\n"));
                 }
             }
 
-            if (checkboxes[i].title == _XOR_("Inf Mission Time"))
+            if (checkboxes[i].title == _XOR_("Lot Mission Time"))
             {
-                if (!gData.InfMissionTime)
+                if (!gData.LotMissionTime)
                 {
                     uintptr_t MissionTime = Memory::FindPattern(_XOR_("game.dll"), _XOR_("F3 0F 5C C7 F3 41 0F 5F C5"));
                     Memory::Nop((LPVOID)(MissionTime), 4);
-                    gData.InfMissionTime = !gData.InfMissionTime;
-                    printf(_XOR_("[Active] Infinite Mission Time\n"));
+                    gData.LotMissionTime = !gData.LotMissionTime;
+                    //printf(_XOR_("[Active] Lots Mission Time\n"));
                 }
             }
 
@@ -319,7 +319,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     Memory::CreateTrampoline(NoReload, memory);
                     Memory::WriteAssemblyInstructions((uintptr_t)memory, NoReload + 14, NoReloadByte, Memory::ArrayLength(NoReloadByte));
                     gData.NoReload = !gData.NoReload;
-                    printf(_XOR_("[Active] No Reload\n"));
+                    //printf(_XOR_("[Active] No Reload\n"));
                 }
             }
 
@@ -343,7 +343,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     Memory::CreateTrampoline(MaxResources, memory);
                     Memory::WriteAssemblyInstructions((uintptr_t)memory, MaxResources + 17, MaxResourcesByte, Memory::ArrayLength(MaxResourcesByte));
                     gData.MaxResources = !gData.MaxResources;
-                    printf(_XOR_("[Active] x500 Samples\n"));
+                    //printf(_XOR_("[Active] x500 Samples\n"));
                 }
             }
 
@@ -363,7 +363,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     Memory::CreateTrampoline(ResourcesAddress, memory);
                     Memory::WriteAssemblyInstructions((uintptr_t)memory, ResourcesAddress + 15, ResourcesBytes, Memory::ArrayLength(ResourcesBytes));
                     gData.Add5Resources = !gData.Add5Resources;
-                    printf(_XOR_("[Active] Add 5 Samples\n"));
+                    //printf(_XOR_("[Active] Add 5 Samples\n"));
                 }
             }
 
@@ -384,16 +384,16 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     Memory::CreateTrampoline(InstantRailGun, memory);
                     Memory::WriteAssemblyInstructions((uintptr_t)memory, InstantRailGun + 14, InstantRailGunByte, Memory::ArrayLength(InstantRailGunByte));
                     gData.InstantRailGun = !gData.InstantRailGun;
-                    printf(_XOR_("[Active] Instant Railgun\n"));
+                    //printf(_XOR_("[Active] Instant Railgun\n"));
                 }
             }
 
             
             if (checkboxes[i].title == _XOR_("MoveSpeed X6"))
             {
-                if (!gData.Speedhack)
+                if (!gData.Speedmod)
                 {
-                    BYTE SpeedhackByte[] =
+                    BYTE SpeedmodByte[] =
                     {
                         0x41, 0xC7, 0x46, 0x0C, 0x00, 0x00, 0xC0, 0x40,
                         0xF3, 0x41, 0x0F, 0x59, 0x56, 0x0C,
@@ -402,13 +402,13 @@ DWORD WINAPI Payload(LPVOID lpParam)
                         0xFF, 0x25, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 //JMP return_Railgun
                     };
 
-                    uintptr_t Speedhack = Memory::FindPattern(_XOR_("game.dll"), _XOR_("F3 41 ?? ?? ?? ?? F3 41 ?? ?? ?? ?? 0F 28 ?? F3 0F ?? ?? 0F 5A"));
+                    uintptr_t Speedmod = Memory::FindPattern(_XOR_("game.dll"), _XOR_("F3 41 ?? ?? ?? ?? F3 41 ?? ?? ?? ?? 0F 28 ?? F3 0F ?? ?? 0F 5A"));
 
-                    LPVOID memory = Memory::AllocateMemory(Speedhack, sizeof(SpeedhackByte));
-                    Memory::CreateTrampoline(Speedhack, memory);
-                    Memory::WriteAssemblyInstructions((uintptr_t)memory, Speedhack + 15, SpeedhackByte, Memory::ArrayLength(SpeedhackByte));
-                    gData.Speedhack = !gData.Speedhack;
-                    printf(_XOR_("[Active] MoveSpeed x6\n"));
+                    LPVOID memory = Memory::AllocateMemory(Speedmod, sizeof(SpeedmodByte));
+                    Memory::CreateTrampoline(Speedmod, memory);
+                    Memory::WriteAssemblyInstructions((uintptr_t)memory, Speedmod + 15, SpeedmodByte, Memory::ArrayLength(SpeedmodByte));
+                    gData.Speedmod = !gData.Speedmod;
+                    //printf(_XOR_("[Active] MoveSpeed x6\n"));
                 }
             }
 
@@ -424,7 +424,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     uintptr_t Recoil = Memory::FindPattern(_XOR_("game.dll"), _XOR_("44 8B 7C 24 ?? 41 3B 46 08"));
                     Memory::Patch((LPVOID)(Recoil+9), RecoilByte, 1);
                     gData.Recoil = !gData.Recoil;
-                    printf(_XOR_("[Active] No Recoil\n"));
+                    //printf(_XOR_("[Active] No Recoil\n"));
                 }
             }
 
@@ -435,18 +435,18 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     uintptr_t CannonOverheat = Memory::FindPattern(_XOR_("game.dll"), _XOR_("F3 0F 11 09 4C 8B C1 49"));
                     Memory::Nop((LPVOID)(CannonOverheat), 4);
                     gData.NoCannonOverheat = !gData.NoCannonOverheat;
-                    printf(_XOR_("[Active] No Cannon Laser Overheat\n"));
+                    //printf(_XOR_("[Active] No Cannon Laser Overheat\n"));
                 }
             }
 
-            if (checkboxes[i].title == _XOR_("Inf Special Weapon"))
+            if (checkboxes[i].title == _XOR_("Lot Special Weapon"))
             {
-                if (!gData.InfSpecWeapon)
+                if (!gData.LotSpecWeapon)
                 {
                     uintptr_t SpecWeapon = Memory::FindPattern(_XOR_("game.dll"), _XOR_("44 89 7F 08 41 80 BC 24"));
                     Memory::Nop((LPVOID)(SpecWeapon), 4);
-                    gData.InfSpecWeapon = !gData.InfSpecWeapon;
-                    printf(_XOR_("[Active] Infinite Special Weapon\n"));
+                    gData.LotSpecWeapon = !gData.LotSpecWeapon;
+                    //printf(_XOR_("[Active] Lots Special Weapon\n"));
                 }
             }
 
@@ -457,7 +457,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     uintptr_t NoStasTurretOverHeat = Memory::FindPattern(_XOR_("game.dll"), _XOR_("F3 42 0F 11 84 32 ?? ?? ?? ?? 8B 55 38 43 89 94 35"));
                     Memory::Nop((LPVOID)(NoStasTurretOverHeat), 10);
                     gData.NoStasTurretOverHeat = !gData.NoStasTurretOverHeat;
-                    printf(_XOR_("[Active] No Stationary Turret Overheat\n"));
+                    //printf(_XOR_("[Active] No Stationary Turret Overheat\n"));
                 }
             }
 
@@ -468,7 +468,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     uintptr_t JetpackNoCD = Memory::FindPattern(_XOR_("game.dll"), _XOR_("8B 08 89 8C BE ?? ?? 00 00"));
                     Memory::Nop((LPVOID)(JetpackNoCD + 2), 7);
                     gData.JetpackNoCD = !gData.JetpackNoCD;
-                    printf(_XOR_("[Active] Jetpack No Cooldown\n"));
+                    //printf(_XOR_("[Active] Jetpack No Cooldown\n"));
                 }
             }
 
@@ -484,19 +484,19 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     uintptr_t ShieldNoCD = Memory::FindPattern(_XOR_("game.dll"), _XOR_("F3 41 0F 5C CA F3 0F 11 8C EE"));
                     Memory::Patch((LPVOID)(ShieldNoCD), ShieldNoCDByte, 5);
                     gData.ShieldNoCD = !gData.ShieldNoCD;
-                    printf(_XOR_("[Active] Backpack Shield No Cooldown\n"));
+                    //printf(_XOR_("[Active] Backpack Shield No Cooldown\n"));
                 }
             }
             
 
-            if (checkboxes[i].title == _XOR_("Inf Backpack"))
+            if (checkboxes[i].title == _XOR_("Lot Backpack"))
             {
-                if (!gData.InfBackpack)
+                if (!gData.LotBackpack)
                 {
                     uintptr_t Backpack = Memory::FindPattern(_XOR_("game.dll"), _XOR_("2B C6 4D 8D 85 48 04 00 00"));
                     Memory::Nop((LPVOID)(Backpack), 2);
-                    gData.InfBackpack = !gData.InfBackpack;
-                    printf(_XOR_("[Active] Infinite Backpack\n"));
+                    gData.LotBackpack = !gData.LotBackpack;
+                    //printf(_XOR_("[Active] Lots Backpack\n"));
                 }
             }
 
@@ -537,7 +537,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     Memory::Patch((LPVOID)(aob_GetMinorInterestBlipIcon), ShowAllMapIconsByte3, 2);
                     Memory::Patch((LPVOID)(aob_CheckMissionBlip), ShowAllMapIconsByte2n4, 2);
                     gData.ShowAllMapIcons = !gData.ShowAllMapIcons;
-                    printf(_XOR_("[Active] Show All Map Icons\n"));
+                    //printf(_XOR_("[Active] Show All Map Icons\n"));
                 }
             }
 
@@ -553,7 +553,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     uintptr_t AllStratagems = Memory::FindPattern(_XOR_("game.dll"), _XOR_("48 89 5C 24 ?? 48 8B D9 85 D2 75 09"));
                     Memory::Patch((LPVOID)(AllStratagems), AllStratagemsByte, 3);
                     gData.AllStratagems = !gData.AllStratagems;
-                    printf(_XOR_("[Active] Unlock All Stratagems\n"));
+                    //printf(_XOR_("[Active] Unlock All Stratagems\n"));
                 }
             }
 
@@ -569,7 +569,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     uintptr_t AllEquipment = Memory::FindPattern(_XOR_("game.dll"), _XOR_("83 B9 ?? ?? ?? ?? ?? 75 ?? 85 D2 74 ?? 44 8B 89 ?? ?? ?? ?? 45 33 C0 45 85 C9 74 ?? 48 8D 81 ?? ?? ?? ?? 39 50 ?? 74 ?? 41 FF C0 48 83 C0 ?? 45 3B C1 72 ?? 32 C0 C3 8B 00 48 69 C8"));
                     Memory::Patch((LPVOID)(AllEquipment+11), AllEquipmentByte, 3);
                     gData.AllEquipment = !gData.AllEquipment;
-                    printf(_XOR_("[Active] Unlock All Equipment\n"));
+                    //printf(_XOR_("[Active] Unlock All Equipment\n"));
                 }
             }
 
@@ -585,7 +585,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
                     uintptr_t AllArmor = Memory::FindPattern(_XOR_("game.dll"), _XOR_("48 83 EC ?? 44 8B 49 ?? 45 33 C0"));
                     Memory::Patch((LPVOID)(AllArmor), AllArmorByte, 3);
                     gData.AllArmor = !gData.AllArmor;
-                    printf(_XOR_("[Active] Unlock All Armor\n"));
+                    //printf(_XOR_("[Active] Unlock All Armor\n"));
                 }
             }
 
@@ -617,7 +617,7 @@ DWORD WINAPI Payload(LPVOID lpParam)
 
         }
     }
-    printf(_XOR_("[Exit] Unload\n"));
+    //printf(_XOR_("[Exit] Unload\n"));
     FreeConsole();
     FreeLibraryAndExitThread(g_hModule, 0);
     return 0;
