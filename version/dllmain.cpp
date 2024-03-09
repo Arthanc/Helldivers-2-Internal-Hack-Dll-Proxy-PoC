@@ -84,20 +84,20 @@ DWORD WINAPI Payload(LPVOID lpParam)
         , {_XOR_("Lot Stamina"), true}
         , {_XOR_("Lot Stratagems"), true}
         , {_XOR_("MoveSpeed X6"), true}
-        , {_XOR_("Lot Mission Time"), true}
+        , {_XOR_("Lot Mission Time"), false}
         //, {"One / Two Hit Kill ( Bile Titan Bug, Aim Only Head )", false}
         , {_XOR_("No Reload"), true}
         , {_XOR_("Max Resources"), true}
-        , {_XOR_("Add 5 Samples"), true}
+        , {_XOR_("Add 5 Samples"), false}
         , {_XOR_("No Recoil"), true}
-        , {_XOR_("Lot Backpack"), true}
-        , {_XOR_("Lot Special Weapon"), true}
-        , {_XOR_("No Laser Cannon Overheat"), true}
-        , {_XOR_("Instant Railgun"), true}
+        , {_XOR_("Lot Backpack"), false}
+        , {_XOR_("Lot Special Weapon"), false}
+        , {_XOR_("No Laser Cannon Overheat"), false}
+        , {_XOR_("Instant Railgun"), false}
         , {_XOR_("Show All Map Icons"), false}
-        , {_XOR_("No Stationary Turret Overheat"), true}
-        , {_XOR_("No Backpack Shield Cooldown"), true}
-        , {_XOR_("No JetPack Cooldown"), true}
+        , {_XOR_("No Stationary Turret Overheat"), false}
+        , {_XOR_("No Backpack Shield Cooldown"), false}
+        , {_XOR_("No JetPack Cooldown"), false}
         , {_XOR_("All Stratagems in Loadout"), false}
         , {_XOR_("All Equipment in Armory"), false}
         , {_XOR_("All Armor in Armory"), false}
